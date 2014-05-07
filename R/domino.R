@@ -12,7 +12,7 @@ domino.runCommand <- function(commandAndArgs, successCallback=domino.OK, failure
     # Call domino client directly from default path if we know that it's not in the PATH
     return(domino.runCommandFromDefaultPath(commandAndArgs, successCallback, failureMessage, stdInput))
   }
-  cmd = paste("dominso --source R", commandAndArgs)
+  cmd = paste("domino --source R", commandAndArgs)
   result = domino.call(cmd, stdInput)
   if (result == 0) {
     return(successCallback())
@@ -60,13 +60,13 @@ domino.call <- function(cmd, stdInput=FALSE) {
 }
 
 domino.handleCommandNotFound = function(failureMessage){
-  stop(paste("Couldn't find domino client in the PATH or in default locations. 
-  Add domino client directory path to PATH environment variable. 
-  If you don't have domino client installed follow instructions on 'http://help.dominoup.com/client'. 
+  stop(paste("Couldn't find domino client in the PATH or in default locations.
+  Add domino client directory path to PATH environment variable.
+  If you don't have domino client installed follow instructions on 'http://help.dominoup.com/client'.
   If you use R-Studio Domino on GNU/Linux through a desktop launcher, add domino path to the .desktop file.
 
   If you need more help, email support@dominoup.zendesk.com or visit http://help.dominoup.com/troubleshooting
-             
+
   - ", failureMessage), call.=FALSE)
 }
 

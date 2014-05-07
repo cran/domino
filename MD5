@@ -1,8 +1,8 @@
-54003f91753feddcab9993dcfa0d7afe *DESCRIPTION
+f36af8e74ea393e00d21f5add34a91b1 *DESCRIPTION
 d4b9e806e1f760d3e67238f1843184b9 *LICENSE
 2ded36e888430948e315526a6c5bd6f2 *NAMESPACE
-cce7a932b640ea229886e5ea6911dac2 *R/domino.R
-3bff2190107e4b0e6c13ffc370dadbdb *man/domino-package.Rd
+9e5841f8d9ad426f145acac01bdad4f5 *R/domino.R
+f79fdc7772bca1ad97dc014de42cad15 *man/domino-package.Rd
 6cead676556300f869b886bf31cf5a55 *man/domino.create.Rd
 ba925a2ea070cac42162a9794fe29233 *man/domino.debug.Rd
 7b2e47eef5ac9f5dfef9c9afff4dad23 *man/domino.diff.Rd

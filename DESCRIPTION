@@ -1,8 +1,8 @@
 Package: domino
-Version: 0.1-6
+Version: 0.1-7
 Type: Package
 Title: Domino Data Lab R console bindings
-Date: 2014-03-27
+Date: 2014-05-07
 Author: Jacek Glodek <jacek@theiterators.com>
 Maintainer: Jacek Glodek <jacek@theiterators.com>
 Copyright: Domino Data Lab Inc.
@@ -10,7 +10,7 @@ Description: The Domino R package is a wrapper on top of the Domino command-line
 License: MIT + file LICENSE
 SystemRequirements: domino (~>1.2.0)
 URL: http://www.dominoup.com/
-Packaged: 2014-03-31 21:52:39 UTC; jglodek
+Packaged: 2014-05-06 22:25:34 UTC; jglodek
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-04-01 11:52:41
+Date/Publication: 2014-05-07 10:53:40
