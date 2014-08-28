@@ -84,13 +84,19 @@ domino.notFalse <- function(arg) {
 
 domino.OK <- function(){return(0)}
 
-# Creates Domino project in a new folder under current working directory.
-# project.name - is the name of the project to be fetched.
-domino.login <- function(usernameOrEmail, password) {
+# Logins you to your Domino account
+# usernameOrEmail, password - credentials used while registering for Domino
+# approvalForSendingErrorReports - approval for sending error reports do domino (boolean value)
+domino.login <- function(usernameOrEmail, password, approvalForSendingErrorReports=FALSE) {
   if(missing(usernameOrEmail) || missing(password)) {
-    stop("Missing parameters for login command. Proper usage:domino.login(usernameOrEmail, password)")
+    stop("Missing parameters for login command. Proper usage:domino.login(usernameOrEmail, password, approvalForSendingErrorReports)")
   }
-  theinput = paste(usernameOrEmail, '\n', password, sep="")
+  if(approvalForSendingErrorReports){
+    approvalChar = "Y"
+  } else {
+    approvalChar = "N"
+  }
+  theinput = paste(usernameOrEmail, '\n', password, '\n', approvalChar, sep="")
   domino.runCommand("login", domino.OK, "Login failed", theinput)
 }
 
@@ -139,8 +145,41 @@ domino.init <- function(projectName) {
   domino.runCommand(cmd, domino.OK, "Initializing the project failed")
 }
 
+domino.snapshot <- function(commitMessage) {
+    if(missing(commitMessage)) {
+        stop("Please provide a commit message to record with your snapshot", call.=FALSE)
+    }
+    savehistory(file="snapshot_command_history.txt")
+    save.image(file="snapshot_workspace.RData")
+
+    # save a plot
+    plot_file = "snapshot_plot.png"
+    if (file.exists(plot_file)) {
+      file.remove(plot_file)
+    }
+    # 1 is the NULL device
+    if (dev.cur() != 1) {
+      new_device = dev.copy(png, filename="plot_snapshot.png")
+      dev.set(new_device)
+      dev.off()
+    }
+
+
+    domino.upload(commitMessage)
+}
+
+domino.upload <- function(commitMessage) {
+  if(missing(commitMessage)) {
+    domino.runCommand("upload", domino.OK, "Uploading project data failed.")
+  } else {
+    cmd = paste("upload -m \"", commitMessage, "\"", sep="");
+    domino.runCommand(cmd, domino.OK, "Uploading project data failed.")
+  }
+}
+
+
 domino.debug <- function() {
-  domino.runCommand("debug")
+  domino.runCommand("--debug")
 }
 
 domino.diff <- function() {
@@ -151,9 +190,6 @@ domino.download <- function() {
   domino.runCommand("download", domino.OK, "Downloading project data failed.")
 }
 
-domino.upload <- function() {
-  domino.runCommand("upload", domino.OK, "Uploading project data failed.")
-}
 
 domino.dump <- function() {
   domino.runCommand("dump")

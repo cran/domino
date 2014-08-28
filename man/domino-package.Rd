@@ -10,14 +10,14 @@ Domino Data Lab R console bindings
 \tabular{ll}{
 Package: \tab domino\cr
 Type: \tab Package\cr
-Version: \tab 0.1-7\cr
-Date: \tab 2014-05-07\cr
+Version: \tab 0.2-1\cr
+Date: \tab 2014-08-28\cr
 License: \tab MIT \cr
 }
 }
 \author{
 Jacek Głodek <jacek@theiterators.com>
-Maintainer: Jacek Głodek <jacek@theiterators.com>
+Maintainer: Nick Elprin <nick@dominoup.com>
 }
 \description{
 The Domino R package is a wrapper on top of the Domino command-line client.
@@ -37,8 +37,9 @@ dominoup
 
 \examples{
 \dontrun{
-## logins as a given user to the Domino server.
-domino.login("jglodek", "MySecretPassword")
+## logins as a given user to the Domino server
+## and approves sending error reports to Domino.
+domino.login("jglodek", "MySecretPassword", TRUE)
 
 ## creates new project.
 domino.create("my-new-project")
