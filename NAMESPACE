@@ -9,4 +9,5 @@ export(domino.runCommand,
   domino.download,
   domino.reset,
   domino.run,
-  domino.status)
+  domino.status,
+  domino.sync)

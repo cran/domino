@@ -1,5 +1,5 @@
 Package: domino
-Version: 0.2-5
+Version: 0.2-6
 Type: Package
 Title: R Console Bindings for the 'Domino Command-Line Client'
 Date: 2015-03-31
@@ -10,7 +10,7 @@ Description: A wrapper on top of the 'Domino Command-Line Client'. It lets you r
 License: MIT + file LICENSE
 SystemRequirements: domino (~>1.7.1)
 URL: http://www.dominoup.com/
-Packaged: 2015-04-13 13:38:51 UTC; todd
+Packaged: 2015-04-15 16:58:15 UTC; todd
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2015-04-14 07:42:13
+Date/Publication: 2015-04-15 21:40:58
