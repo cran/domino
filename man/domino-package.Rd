@@ -10,14 +10,14 @@ Domino Data Lab R console bindings
 \tabular{ll}{
 Package: \tab domino\cr
 Type: \tab Package\cr
-Version: \tab 0.2-1\cr
-Date: \tab 2014-08-28\cr
+Version: \tab 0.2-5\cr
+Date: \tab 2015-03-31\cr
 License: \tab MIT \cr
 }
 }
 \author{
 Jacek Głodek <jacek@theiterators.com>
-Maintainer: Nick Elprin <nick@dominoup.com>
+Maintainer: Nick Elprin <nick@dominodatalab.com>
 }
 \description{
 The Domino R package is a wrapper on top of the Domino command-line client.
@@ -27,7 +27,7 @@ Under the hood, it uses R's system function to run the Domino executable,
 which must be installed as a prerequisite.
 }
 \references{
-  Domino Data Lab support webpage - http://help.dominoup.com/
+  Domino Data Lab support webpage - http://help.dominodatalab.com/
 }
 \keyword{
 package

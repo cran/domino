@@ -62,10 +62,10 @@ domino.call <- function(cmd, stdInput=FALSE) {
 domino.handleCommandNotFound = function(failureMessage){
   stop(paste("Couldn't find domino client in the PATH or in default locations.
   Add domino client directory path to PATH environment variable.
-  If you don't have domino client installed follow instructions on 'http://help.dominoup.com/client'.
+  If you don't have domino client installed follow instructions on 'http://help.dominodatalab.com/client'.
   If you use R-Studio Domino on GNU/Linux through a desktop launcher, add domino path to the .desktop file.
 
-  If you need more help, email support@dominoup.zendesk.com or visit http://help.dominoup.com/troubleshooting
+  If you need more help, email support@dominodatalab.com or visit http://help.dominodatalab.com/troubleshooting
 
   - ", failureMessage), call.=FALSE)
 }
@@ -85,19 +85,46 @@ domino.notFalse <- function(arg) {
 domino.OK <- function(){return(0)}
 
 # Logins you to your Domino account
-# usernameOrEmail, password - credentials used while registering for Domino
+# usernameOrEmail, password - credentials used while registering for Domino. 
 # approvalForSendingErrorReports - approval for sending error reports do domino (boolean value)
-domino.login <- function(usernameOrEmail, password, approvalForSendingErrorReports=FALSE) {
-  if(missing(usernameOrEmail) || missing(password)) {
-    stop("Missing parameters for login command. Proper usage:domino.login(usernameOrEmail, password, approvalForSendingErrorReports)")
+# host - optional parameter for location of the domino server (url)
+domino.login <- function(usernameOrEmail, password, approvalForSendingErrorReports=FALSE, host) {
+  # If the user did not enter a password open the login prompt
+  if(missing(password) && !interactive()){
+    stop("Missing parameters for login command. Proper usage: domino.login(usernameOrEmail, password, approvalForSendingErrorReports)")
   }
+    
+  if(missing(usernameOrEmail)) {
+    if(interactive()){
+      stop("Missing parameters for login command. Proper usage: domino.login(usernameOrEmail, approvalForSendingErrorReports)")  
+    } else {
+      stop("Missing parameters for login command. Proper usage: domino.login(usernameOrEmail, passwrod approvalForSendingErrorReports)")  
+    }
+  }
+  
+  if(missing(password)){
+    password <- .domino.login.prompt()
+  }
+  
+  if(is.null(password)){
+    stop("Missing parameters for login command. Password is required.")
+  }
+  
   if(approvalForSendingErrorReports){
     approvalChar = "Y"
   } else {
     approvalChar = "N"
   }
+  
   theinput = paste(usernameOrEmail, '\n', password, '\n', approvalChar, sep="")
-  domino.runCommand("login", domino.OK, "Login failed", theinput)
+  
+  loginCommand <- "login"
+  
+  if(!missing(host)){
+    loginCommand <- paste(loginCommand, host, sep=" ")
+  }
+  
+  domino.runCommand(loginCommand, domino.OK, "Login failed", theinput)
 }
 
 domino.projectNameWithoutUser <- function(projectName) {
@@ -210,4 +237,41 @@ domino.run <- function(...) {
 domino.status <- function(...) {
   cmd = paste("status", ...)
   domino.runCommand(cmd, domino.OK)
+}
+
+domino.sync <- function() {
+  domino.runCommand("sync", domino.OK, "Synchronizing project data failed.")
+}
+
+.open.rStudio.login.prompt <- function(message){
+  if(Sys.getenv("RSTUDIO") != "1"){
+    stop("The system is not running in RStudio")
+  }
+  
+  if(!("tools:rstudio" %in% search())){
+    stop("Cannot locate RStudio tools")
+  }
+  
+  toolsEnv <- as.environment("tools:rstudio")
+  rStudioLoginPrompt <- get(".rs.askForPassword", envir=toolsEnv)
+  
+  rStudioLoginPrompt(message)
+}
+
+.domino.login.prompt <- function(){
+  passwordPromptMessage <- "Enter your Domino password: "
+  
+  # if not in rstudio env or the prompt function is not found, 
+  # the function will fail => fallback to readLine
+  password <- try(.open.rStudio.login.prompt(passwordPromptMessage), silent=T)
+  
+  if(inherits(password, "try-error")){
+    password <- readline("Enter your Domino password: ") 
+  }
+  
+  if(password == ""){
+    password <- NULL
+  }
+  
+  password
 }
