@@ -10,8 +10,8 @@ Domino Data Lab R console bindings
 \tabular{ll}{
 Package: \tab domino\cr
 Type: \tab Package\cr
-Version: \tab 0.2-6\cr
-Date: \tab 2015-04-15\cr
+Version: \tab 0.2-7\cr
+Date: \tab 2015-05-27\cr
 License: \tab MIT \cr
 }
 }

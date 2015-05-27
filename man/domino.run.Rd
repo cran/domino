@@ -8,13 +8,17 @@ domino.run
 Runs your project on Domino servers with given parameters.
 }
 \usage{
-domino.run(...)
+domino.run(..., publishApiEndpoint=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{...}{
 All the run arguments will be joined together using space character. \\
 Ex. \code{domino.run("main.py", "-xvz", "my-file1.csv")}
+}
+\item{publishApiEndpoint}{
+Automatically publish API endpoints upon successful run completion. \\
+Ex. \code{domino.run("main.py", "-xvz", "my-file1.csv", publishApiEndpoint=TRUE)}
 }
 }
 \examples{\dontrun{

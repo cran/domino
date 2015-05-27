@@ -1,31 +1,24 @@
 # Environment(package global) variable holding infomation about domino client
 # If this gets assigned with true, the commands will be tried to run from default installation path
 domino <- new.env()
-domino$command_is_in_the_path <- TRUE
 
 # Runs a domino client command
 # calls successCallback if command execution succedded
 # prints failure message if command execution failed
 # calls domino.runCommandFromDefaultPath if command is not found
 domino.runCommand <- function(commandAndArgs, successCallback=domino.OK, failureMessage="Executing the command failed", stdInput=FALSE) {
-  if(!domino$command_is_in_the_path) {
-    # Call domino client directly from default path if we know that it's not in the PATH
-    return(domino.runCommandFromDefaultPath(commandAndArgs, successCallback, failureMessage, stdInput))
-  }
-  cmd = paste("domino --source R", commandAndArgs)
-  result = domino.call(cmd, stdInput)
-  if (result == 0) {
-    return(successCallback())
-  }
-  else if (result == 127) {
-    if(domino$command_is_in_the_path){
-      domino$command_is_in_the_path <- FALSE
-      print("Domino client not found in system's PATH. Trying default location...")
+  if(domino$command_is_in_the_path) {
+    cmd = paste("domino --source R", commandAndArgs)
+    result = domino.call(cmd, stdInput)
+    
+    if (result == 0) {
+      successCallback()
+    } else {
+      stop(failureMessage, call.=FALSE)
     }
-    return(domino.runCommandFromDefaultPath(commandAndArgs, successCallback, failureMessage, stdInput))
-  }
-  else {
-    stop(failureMessage, call.=FALSE)
+  } else {
+    # Call domino client directly from default path if we know that it's not in the PATH
+    domino.runCommandFromDefaultPath(commandAndArgs, successCallback, failureMessage, stdInput)
   }
 }
 
@@ -226,11 +219,19 @@ domino.reset <- function() {
   domino.runCommand("reset")
 }
 
-domino.run <- function(...) {
+domino.run <- function(..., publishApiEndpoint=FALSE) {
   if(missing(...)) {
     stop("Missing parameters for run command. Example usage:domino.run('main.R', param1, param2, param3, ...)", call.=FALSE)
   }
-  cmd = paste("run", ...)
+  
+  cmd = "run"
+  
+  if(domino.notFalse(publishApiEndpoint)){
+    cmd = paste(cmd, "--publish-api-endpoint")  
+  }
+  
+  cmd = paste(cmd, ...)
+  
   domino.runCommand(cmd, domino.OK, paste("Running the \"", cmd,"\" command failed", sep=""))
 }
 
@@ -241,6 +242,17 @@ domino.status <- function(...) {
 
 domino.sync <- function() {
   domino.runCommand("sync", domino.OK, "Synchronizing project data failed.")
+}
+
+# Checks whether domino is in the system's path, by running a 'dummy' command. 
+# If the result is an error, domino it's safe to assume that domino is not found
+.is.domino.in.path <- function() {
+  result <- try(system("domino help", ignore.stdout=T, ignore.stderr=T), silent = T)
+  if(!inherits(result, "try-error") && result != 127) {
+    T
+  } else {
+    F
+  }
 }
 
 .open.rStudio.login.prompt <- function(message){
@@ -274,4 +286,8 @@ domino.sync <- function() {
   }
   
   password
+}
+
+.onAttach <- function(libname, pkgname) {
+  domino$command_is_in_the_path <- .is.domino.in.path()
 }
