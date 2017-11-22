@@ -1,8 +1,8 @@
-1b1d3667453a385c47a2f7e7847372ba *DESCRIPTION
+8e05db15fb795a7884f410c3a9ea761f *DESCRIPTION
 293efb0015bec28d71a3b2baf60a554d *LICENSE
 3437ddbcb02a3b8c0621805dae7798c4 *NAMESPACE
-72d4b920c5213e1ba3eca8192f6aaa71 *R/domino-package.R
-acb37048b0ff64593ae09ce49f50b60d *R/domino.R
+6fbc5e922d2fd571926ef9b548cccc64 *R/domino-package.R
+c43f6ccd4b8c38d807db08d2f8b5f236 *R/domino.R
 2931442a4c9b42d751703f20c3cc203e *R/domino.create.R
 d1ccffea590fdfcdf29724dd3441a04e *R/domino.debug.R
 408e0cf8001bcd5fca1c3e8260a318e2 *R/domino.diff.R
@@ -34,6 +34,5 @@ e1a927bca6576f9366ab28a045814fbb *man/domino.snapshot.Rd
 8b90b60240b6e3056ebda359096bc409 *man/domino.status.Rd
 20b2ee6cd98409df6379bd1576ac7381 *man/domino.sync.Rd
 e9279a63bf9b78bbfa0dbcf7503b9477 *man/domino.upload.Rd
-5a31ba1198fe940c2770b64104569884 *tests/testthat.R
-99ed047e737714fcf9dee7097961653b *tests/testthat/domino.log
+14946165c1ef94e3524720578156a741 *tests/testthat.R
 054844128e5b3c42b611cc946e3092a5 *tests/testthat/test-login.R
